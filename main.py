@@ -5,6 +5,11 @@ import queue
 import bs4
 import time
 import pickle
+import datetime
+
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
 
 class CrawlResult:
     def __init__(self, startAddress, maxDepth, startTime, endTime, results):
@@ -14,6 +19,12 @@ class CrawlResult:
         self.endTime = endTime
         self.crawlTime = endTime - startTime
         self.results = results
+
+# convert list containing exactly one empty string to empty list
+def listSimp(l):
+    if len(l) == 1 and l[0] == '':
+        return []
+    return l
 
 def downloadSite(toVisit: queue.Queue, downloaded: queue.Queue, l: threading.Lock):
     while toVisit.empty() == False:
@@ -85,6 +96,68 @@ def crawl(startPage, maxDepth, aAttrsFilter, action):
     
     return CrawlResult(startPage, maxDepth, startTime, time.time(), actionRes)
 
-crawlResult = crawl('https://www.python.org/', 1, {}, searchForSentencesContainingWord('Python', True, []))
-for e in crawlResult.results:
-    print(e)
+class GUIcrawler:
+    def __init__(self):
+        self.builder = Gtk.Builder()
+        self.builder.add_from_file('app-interface.glade')
+        self.window = self.builder.get_object('mainWindow')
+        self.builder.connect_signals(self)
+    
+    def on_mainWindow_destroy(self, widget, data=None):
+        Gtk.main_quit()
+
+    def hideWidget(self, widget, data=None):
+        widget.hide()
+        return True
+    
+    def invokeWidget(self, widget, data=None):
+        widget.show()
+    
+    def on_c1GoButton_clicked(self, widget, data=None):
+        pleasewaitWindow = self.builder.get_object('pleasewaitWindow')
+        pleasewaitWindow.show()
+        # t = threading.Thread(target=crawl, args=(   self.builder.get_object("c1StartAddress_entry").get_text(),
+        #                                             self.builder.get_object("c1MaxDepth_entry").get_text(),
+        #                                             {
+        #                                                 "id": self.builder.get_object("c1_a_id_entry"),
+        #                                                 "name": self.builder.get_object("c1_a_name_entry"),
+        #                                                 "class": self.builder.get_object("c1_a_class_entry"),
+        #                                                 "title": self.builder.get_object("c1_a_title_entry")
+        #                                             },
+        #                                             searchForSentencesContainingWord(   self.builder.get_object("c1WordToSearch_entry").get_text(),
+        #                                                                                 self.builder.get_object("c1_caseSensitive_checkButton").active,
+        #                                                                                 [])))
+        self.res = crawl(   self.builder.get_object("c1StartAddress_entry").get_text(),
+                            int(self.builder.get_object("c1MaxDepth_entry").get_text()),
+                            {
+                                "id": listSimp([self.builder.get_object("c1_a_id_entry").get_text()]),
+                                "name": listSimp([self.builder.get_object("c1_a_name_entry").get_text()]),
+                                "class": listSimp([self.builder.get_object("c1_a_class_entry").get_text()]),
+                                "title": listSimp([self.builder.get_object("c1_a_title_entry").get_text()])
+                            },
+                            searchForSentencesContainingWord(   self.builder.get_object("c1WordToSearch_entry").get_text(),
+                                                                self.builder.get_object("c1_caseSensitive_checkButton").get_active(),
+                                                                []))
+        pleasewaitWindow.hide()
+        self.builder.get_object("crawlResultsWindow").show()
+
+    def on_crawlResultsWindow_show(self, widget, data=None):
+        self.builder.get_object("res_startSite").set_text(self.res.startAddress)
+        self.builder.get_object("res_maxDepth").set_text(str(self.res.maxDepth))
+        self.builder.get_object("res_startTime").set_text(datetime.datetime.fromtimestamp(self.res.startTime).strftime("%A, %B %d, %Y %I:%M:%S"))
+        self.builder.get_object("res_endTime").set_text(datetime.datetime.fromtimestamp(self.res.endTime).strftime("%A, %B %d, %Y %I:%M:%S"))
+        self.builder.get_object("res_crawlTime").set_text(str(self.res.crawlTime))
+
+        resultsListStore = self.builder.get_object("resultsListStore")
+        resultsListStore.clear()
+        for siteAddress, foundOnSite in self.res.results:
+            resultsListStore.append([siteAddress, '\n'.join(foundOnSite)])
+            # resultsListStore.append([siteAddress, str(foundOnSite)])
+
+# crawlResult = crawl('https://www.python.org/', 1, {'id': [], 'name': [], 'class': [], 'title': []}, searchForSentencesContainingWord('Python', True, []))
+# for s, r in crawlResult.results:
+#     print(s, r)
+
+app = GUIcrawler()
+app.window.show_all()
+Gtk.main()
