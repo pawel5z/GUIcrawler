@@ -12,6 +12,7 @@ class CrawlResult:
         self.maxDepth = maxDepth
         self.startTime = startTime
         self.endTime = endTime
+        self.crawlTime = endTime - startTime
         self.results = results
 
 def downloadSite(toVisit: queue.Queue, downloaded: queue.Queue, l: threading.Lock):
@@ -26,9 +27,12 @@ def downloadSite(toVisit: queue.Queue, downloaded: queue.Queue, l: threading.Loc
             print('\n', siteAddress, e)
             l.release()
 
-def searchForSentencesContainingWord(word, tagsListToSearch):
+def searchForSentencesContainingWord(word: str, caseSensitive: bool, tagsListToSearch: list):
     def aux(siteHTML):
-        regEx = re.compile(r'(\b' + word + r'\b|[A-Z][^\.]*?\b' + word + r'\b).*?[\.!?](?:\s|$)')
+        if caseSensitive:
+            regEx = re.compile(r'(\b' + word + r'\b|[A-Z][^\.]*?\b' + word + r'\b).*?[\.!?](?:\s|$)')
+        else:
+            regEx = re.compile(r'(\b' + word + r'\b|[A-Z][^\.]*?\b' + word + r'\b).*?[\.!?](?:\s|$)', re.IGNORECASE)
         bs = bs4.BeautifulSoup(siteHTML, 'html.parser')
         sentencesContainingWord = []
         for tag in bs.body.findAll(tagsListToSearch):
@@ -81,6 +85,6 @@ def crawl(startPage, maxDepth, aAttrsFilter, action):
     
     return CrawlResult(startPage, maxDepth, startTime, time.time(), actionRes)
 
-crawlResult = crawl('https://www.python.org/', 1, {}, searchForSentencesContainingWord('Python', []))
+crawlResult = crawl('https://www.python.org/', 1, {}, searchForSentencesContainingWord('Python', True, []))
 for e in crawlResult.results:
     print(e)
