@@ -20,11 +20,11 @@ class CrawlResult:
         self.crawlTime = endTime - startTime
         self.results = results
 
-# convert list containing exactly one empty string to empty list
-def listSimp(l):
-    if len(l) == 1 and l[0] == '':
+# convert string of allowed attributes to list of allowed attributes
+def comaSepToList(s: str):
+    if s == '':
         return []
-    return l
+    return s.split(',')
 
 def downloadSite(toVisit: queue.Queue, downloaded: queue.Queue, l: threading.Lock):
     while toVisit.empty() == False:
@@ -116,28 +116,17 @@ class GUIcrawler:
     def on_c1GoButton_clicked(self, widget, data=None):
         pleasewaitWindow = self.builder.get_object('pleasewaitWindow')
         pleasewaitWindow.show()
-        # t = threading.Thread(target=crawl, args=(   self.builder.get_object("c1StartAddress_entry").get_text(),
-        #                                             self.builder.get_object("c1MaxDepth_entry").get_text(),
-        #                                             {
-        #                                                 "id": self.builder.get_object("c1_a_id_entry"),
-        #                                                 "name": self.builder.get_object("c1_a_name_entry"),
-        #                                                 "class": self.builder.get_object("c1_a_class_entry"),
-        #                                                 "title": self.builder.get_object("c1_a_title_entry")
-        #                                             },
-        #                                             searchForSentencesContainingWord(   self.builder.get_object("c1WordToSearch_entry").get_text(),
-        #                                                                                 self.builder.get_object("c1_caseSensitive_checkButton").active,
-        #                                                                                 [])))
         self.res = crawl(   self.builder.get_object("c1StartAddress_entry").get_text(),
                             int(self.builder.get_object("c1MaxDepth_entry").get_text()),
                             {
-                                "id": listSimp([self.builder.get_object("c1_a_id_entry").get_text()]),
-                                "name": listSimp([self.builder.get_object("c1_a_name_entry").get_text()]),
-                                "class": listSimp([self.builder.get_object("c1_a_class_entry").get_text()]),
-                                "title": listSimp([self.builder.get_object("c1_a_title_entry").get_text()])
+                                "id": comaSepToList(self.builder.get_object("c1_a_id_entry").get_text()),
+                                "name": comaSepToList(self.builder.get_object("c1_a_name_entry").get_text()),
+                                "class": comaSepToList(self.builder.get_object("c1_a_class_entry").get_text()),
+                                "title": comaSepToList(self.builder.get_object("c1_a_title_entry").get_text())
                             },
                             searchForSentencesContainingWord(   self.builder.get_object("c1WordToSearch_entry").get_text(),
                                                                 self.builder.get_object("c1_caseSensitive_checkButton").get_active(),
-                                                                []))
+                                                                comaSepToList(self.builder.get_object("c1TagToSearch_entry").get_text())))
         pleasewaitWindow.hide()
         self.builder.get_object("crawlResultsWindow").show()
 
@@ -152,7 +141,13 @@ class GUIcrawler:
         resultsListStore.clear()
         for siteAddress, foundOnSite in self.res.results:
             resultsListStore.append([siteAddress, '\n'.join(foundOnSite)])
-            # resultsListStore.append([siteAddress, str(foundOnSite)])
+
+    def on_saveResultsButton_clicked(self, widget, data=None):
+        widget.show()
+    
+    def on_saveButton_clicked(self, widget, data=None):
+        with open(widget.get_filename() + '.store', 'wb') as f:
+            pickle.dump(self.res, f)
 
 # crawlResult = crawl('https://www.python.org/', 1, {'id': [], 'name': [], 'class': [], 'title': []}, searchForSentencesContainingWord('Python', True, []))
 # for s, r in crawlResult.results:
