@@ -107,18 +107,19 @@ class GUIcrawler:
     def on_mainWindow_destroy(self, widget, data=None):
         Gtk.main_quit()
 
+    def invokeWidget(self, widget, data=None):
+        widget.show()
+
     def hideWidget(self, widget, data=None):
         widget.hide()
         return True
     
-    def invokeWidget(self, widget, data=None):
-        widget.show()
-    
     def on_c1GoButton_clicked(self, widget, data=None):
         pleasewaitWindow = self.builder.get_object('pleasewaitWindow')
         pleasewaitWindow.show()
+        widget.hide()
         self.res = crawl(   self.builder.get_object("c1StartAddress_entry").get_text(),
-                            int(self.builder.get_object("c1MaxDepth_entry").get_text()),
+                            self.builder.get_object("c1MaxDepth_spinButton").get_value_as_int(),
                             {
                                 "id": comaSepToList(self.builder.get_object("c1_a_id_entry").get_text()),
                                 "name": comaSepToList(self.builder.get_object("c1_a_name_entry").get_text()),

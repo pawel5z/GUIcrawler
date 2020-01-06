@@ -2,6 +2,56 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkApplicationWindow" id="mainWindow">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">GUIcrawler</property>
+    <signal name="destroy" handler="on_mainWindow_destroy" swapped="no"/>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkButton" id="newCrawlButton">
+            <property name="label" translatable="yes">New crawl</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="hideWidget" object="mainWindow" swapped="no"/>
+            <signal name="clicked" handler="invokeWidget" object="newCrawlWindow" swapped="no"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton">
+            <property name="label" translatable="yes">Open crawl results</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="hideWidget" object="mainWindow" swapped="no"/>
+            <signal name="clicked" handler="invokeWidget" object="openResultsWindow" after="yes" swapped="no"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkAdjustment" id="maxDepthAdjustment">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkWindow" id="c1Window">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Search for sentences inside &lt;body&gt;...&lt;/body&gt; containing given word</property>
@@ -67,11 +117,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="c1MaxDepth_entry">
+              <object class="GtkSpinButton" id="c1MaxDepth_spinButton">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="text" translatable="yes">0</property>
                 <property name="input_purpose">number</property>
+                <property name="adjustment">maxDepthAdjustment</property>
+                <property name="climb_rate">1</property>
+                <property name="snap_to_ticks">True</property>
+                <property name="numeric">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -370,58 +423,13 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <signal name="clicked" handler="hideWidget" object="c1Window" after="yes" swapped="no"/>
-            <signal name="clicked" handler="on_c1GoButton_clicked" swapped="no"/>
+            <signal name="clicked" handler="hideWidget" object="c1Window" swapped="no"/>
+            <signal name="clicked" handler="on_c1GoButton_clicked" after="yes" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">5</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
-  <object class="GtkApplicationWindow" id="mainWindow">
-    <property name="can_focus">False</property>
-    <property name="title" translatable="yes">GUIcrawler</property>
-    <signal name="destroy" handler="on_mainWindow_destroy" swapped="no"/>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <object class="GtkBox">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkButton" id="newCrawlButton">
-            <property name="label" translatable="yes">New crawl</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <signal name="clicked" handler="hideWidget" object="mainWindow" swapped="no"/>
-            <signal name="clicked" handler="invokeWidget" object="newCrawlWindow" swapped="no"/>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton">
-            <property name="label" translatable="yes">Open crawl results</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <signal name="clicked" handler="hideWidget" object="mainWindow" swapped="no"/>
-            <signal name="clicked" handler="invokeWidget" object="openResultsWindow" after="yes" swapped="no"/>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
           </packing>
         </child>
       </object>
@@ -507,6 +515,9 @@
   <object class="GtkWindow" id="pleasewaitWindow">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Crawling in progress</property>
+    <property name="resizable">False</property>
+    <property name="deletable">False</property>
+    <signal name="delete-event" handler="hideWidget" swapped="no"/>
     <child>
       <placeholder/>
     </child>
