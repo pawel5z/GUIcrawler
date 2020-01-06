@@ -102,6 +102,7 @@ class GUIcrawler:
         self.builder.add_from_file('app-interface.glade')
         self.window = self.builder.get_object('mainWindow')
         self.builder.connect_signals(self)
+        self.res = None
     
     def on_mainWindow_destroy(self, widget, data=None):
         Gtk.main_quit()
@@ -148,6 +149,10 @@ class GUIcrawler:
     def on_saveButton_clicked(self, widget, data=None):
         with open(widget.get_filename() + '.store', 'wb') as f:
             pickle.dump(self.res, f)
+    
+    def on_openButton_clicked(self, widget, data=None):
+        with open(widget.get_filename(), 'rb') as f:
+            self.res = pickle.load(f)
 
 # crawlResult = crawl('https://www.python.org/', 1, {'id': [], 'name': [], 'class': [], 'title': []}, searchForSentencesContainingWord('Python', True, []))
 # for s, r in crawlResult.results:
