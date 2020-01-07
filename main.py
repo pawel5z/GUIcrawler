@@ -55,11 +55,11 @@ def processSite(toVisit: queue.Queue, downloaded: queue.Queue, visited: set, act
     while downloaded.empty() == False:
         siteAddress, dist, siteHTML = downloaded.get()
         visited.add(siteAddress)
-        bs = bs4.BeautifulSoup(siteHTML, 'html.parser')
-        for tag in bs.body.findAll('a', attrs=aAttrsFilter):
-            if re.match(r'.+\..+\..+', tag.get('href')) and (not tag.get('href') in visited):
-                if dist < maxDepth:
-                    toVisit.put((tag.get('href'), dist+1))
+        if dist < maxDepth:
+            bs = bs4.BeautifulSoup(siteHTML, 'html.parser')
+            for tag in bs.body.findAll('a', attrs=aAttrsFilter):
+                if re.match(r'.+\..+\..+', tag.get('href')) and (not tag.get('href') in visited):
+                        toVisit.put((tag.get('href'), dist+1))
 
         result = action(siteHTML)
         if len(result) != 0:
@@ -77,7 +77,7 @@ def crawl(startPage, maxDepth, aAttrsFilter, action):
     while toVisit.empty() == False:
         threads = []
         # downloading sites
-        for i in range(min(toVisit.qsize(), 8)):
+        for i in range(max(1, min(toVisit.qsize(), 8))):
             t = threading.Thread(target=downloadSite, args=(toVisit, downloaded, l))
             t.start()
             threads.append(t)
@@ -86,7 +86,7 @@ def crawl(startPage, maxDepth, aAttrsFilter, action):
         threads.clear()
 
         # processing sites
-        for i in range(min(downloaded.qsize(), 8)):
+        for i in range(max(1, min(downloaded.qsize(), 8))):
             t = threading.Thread(target=processSite, args=(toVisit, downloaded, visited, actionRes, maxDepth, aAttrsFilter, action, l))
             t.start()
             threads.append(t)
@@ -115,9 +115,6 @@ class GUIcrawler:
         return True
     
     def on_c1GoButton_clicked(self, widget, data=None):
-        pleasewaitWindow = self.builder.get_object('pleasewaitWindow')
-        pleasewaitWindow.show()
-        widget.hide()
         self.res = crawl(   self.builder.get_object("c1StartAddress_entry").get_text(),
                             self.builder.get_object("c1MaxDepth_spinButton").get_value_as_int(),
                             {
@@ -129,8 +126,7 @@ class GUIcrawler:
                             searchForSentencesContainingWord(   self.builder.get_object("c1WordToSearch_entry").get_text(),
                                                                 self.builder.get_object("c1_caseSensitive_checkButton").get_active(),
                                                                 comaSepToList(self.builder.get_object("c1TagToSearch_entry").get_text())))
-        pleasewaitWindow.hide()
-        self.builder.get_object("crawlResultsWindow").show()
+        # self.builder.get_object("crawlResultsWindow").show()
 
     def on_crawlResultsWindow_show(self, widget, data=None):
         self.builder.get_object("res_startSite").set_text(self.res.startAddress)
