@@ -6,6 +6,7 @@ import bs4
 import time
 import pickle
 import datetime
+import json
 
 import gi
 gi.require_version('Gtk', '3.0')
@@ -30,13 +31,9 @@ class CrawlResult:
             "results": self.results
         }
 
-    def unjsonify(self, fJSON):
-        self.startAddress = fJSON["startAddress"]
-        self.maxDepth = fJSON["maxDepth"]
-        self.startTime = fJSON["startTime"]
-        self.endTime = fJSON["endTime"]
-        self.crawlTime = fJSON["crawlTime"]
-        self.results = fJSON["results"]
+    @classmethod
+    def fromJSON(cls, fJSON):
+        return cls(fJSON["startAddress"], fJSON["maxDepth"], fJSON["startTime"], fJSON["endTime"], fJSON["results"])
 
 # convert string of allowed attributes to list of allowed attributes
 def comaSepToList(s: str):
@@ -167,16 +164,24 @@ class GUIcrawler:
         widget.show()
     
     def on_saveButton_clicked(self, widget, data=None):
-        with open(widget.get_filename() + '.store', 'wb') as f:
-            pickle.dump(self.res, f)
+        fileTypeComboBox = self.builder.get_object("fileTypeComboBox")
+        model = fileTypeComboBox.get_model()
+        curId = fileTypeComboBox.get_active()
+        if model[curId][0] == "*.store":
+            with open(widget.get_filename() + '.store', 'wb') as f:
+                pickle.dump(self.res, f)
+        elif model[curId][0] == "*.json":
+            with open(widget.get_filename() + '.json', 'w') as f:
+                json.dump(self.res.jsonify(), f)
     
     def on_openButton_clicked(self, widget, data=None):
-        with open(widget.get_filename(), 'rb') as f:
-            self.res = pickle.load(f)
-
-# crawlResult = crawl('https://www.python.org/', 1, {'id': [], 'name': [], 'class': [], 'title': []}, searchForSentencesContainingWord('Python', True, []))
-# for s, r in crawlResult.results:
-#     print(s, r)
+        fname = widget.get_filename()
+        if re.search(r"\.store", fname):
+            with open(fname, 'rb') as f:
+                self.res = pickle.load(f)
+        elif re.search(r"\.json", fname):
+            with open(fname, 'r') as f:
+                self.res = CrawlResult.fromJSON(json.load(f))
 
 app = GUIcrawler()
 app.window.show_all()
