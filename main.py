@@ -41,9 +41,9 @@ def downloadSite(toVisit: queue.Queue, downloaded: queue.Queue, l: threading.Loc
 def searchForSentencesContainingWord(word: str, caseSensitive: bool, tagsListToSearch: list):
     def aux(siteHTML):
         if caseSensitive:
-            regEx = re.compile(r'((?:(?:\b' + word + r'\b)|(?:[A-Z].*?\b' + word + r'\b)).*?(?:(?:\.\.\.)|[\.\!\?]){1})')
+            regEx = re.compile(r'((?:(?:\b' + word + r'\b)|(?:[A-Z](?:[a-zA-Z0-9, \'])*?\b' + word + r'\b))(?:[a-zA-Z0-9, \'])*?(?:(?:\.\.\.)|[\.\!\?]){1})')
         else:
-            regEx = re.compile(r'((?:(?:\b' + word + r'\b)|(?:[A-Z].*?\b' + word + r'\b)).*?(?:(?:\.\.\.)|[\.\!\?]){1})', re.IGNORECASE)
+            regEx = re.compile(r'((?:(?:\b' + word + r'\b)|(?:[A-Z](?:[a-zA-Z0-9, \'])*?\b' + word + r'\b))(?:[a-zA-Z0-9, \'])*?(?:(?:\.\.\.)|[\.\!\?]){1})', re.IGNORECASE)
         bs = bs4.BeautifulSoup(siteHTML, 'html.parser')
         sentencesContainingWord = []
         for tag in bs.body.findAll(tagsListToSearch):
