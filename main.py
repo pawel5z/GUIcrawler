@@ -19,6 +19,24 @@ class CrawlResult:
         self.endTime = endTime
         self.crawlTime = endTime - startTime
         self.results = results
+    
+    def jsonify(self):
+        return {
+            "startAddress": self.startAddress,
+            "maxDepth": self.maxDepth,
+            "startTime": self.startTime,
+            "endTime": self.endTime,
+            "crawlTime": self.crawlTime,
+            "results": self.results
+        }
+
+    def unjsonify(self, fJSON):
+        self.startAddress = fJSON["startAddress"]
+        self.maxDepth = fJSON["maxDepth"]
+        self.startTime = fJSON["startTime"]
+        self.endTime = fJSON["endTime"]
+        self.crawlTime = fJSON["crawlTime"]
+        self.results = fJSON["results"]
 
 # convert string of allowed attributes to list of allowed attributes
 def comaSepToList(s: str):
