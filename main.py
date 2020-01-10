@@ -44,7 +44,7 @@ def searchForSentencesContainingWord(word: str, caseSensitive: bool, tagsListToS
             regEx = re.compile(r'((?:(?:\b' + word + r'\b)|(?:[A-Z](?:[a-zA-Z0-9, \'])*?\b' + word + r'\b))(?:[a-zA-Z0-9, \'])*?(?:(?:\.\.\.)|[\.\!\?]){1})')
         else:
             regEx = re.compile(r'((?:(?:\b' + word + r'\b)|(?:[A-Z](?:[a-zA-Z0-9, \'])*?\b' + word + r'\b))(?:[a-zA-Z0-9, \'])*?(?:(?:\.\.\.)|[\.\!\?]){1})', re.IGNORECASE)
-        bs = bs4.BeautifulSoup(siteHTML, 'html.parser')
+        bs = bs4.BeautifulSoup(siteHTML, 'lxml')
         sentencesContainingWord = []
         for tag in bs.body.findAll(tagsListToSearch):
             for sentence in regEx.finditer(tag.text):
@@ -58,7 +58,7 @@ def processSite(toVisit: queue.Queue, downloaded: queue.Queue, visited: set, act
         siteAddress, dist, siteHTML = downloaded.get()
         visited.add(siteAddress)
         if dist < maxDepth:
-            bs = bs4.BeautifulSoup(siteHTML, 'html.parser')
+            bs = bs4.BeautifulSoup(siteHTML, 'lxml')
             for tag in bs.body.findAll('a', attrs=aAttrsFilter):
                 if re.match(r'.+\..+\..+', tag.get('href')) and (not tag.get('href') in visited):
                         toVisit.put((tag.get('href'), dist+1))
