@@ -65,7 +65,9 @@ def processSite(toVisit: queue.Queue, downloaded: queue.Queue, visited: set, act
 
         result = action(siteHTML)
         if len(result) != 0:
+            l.acquire()
             actionRes.append((siteAddress, result))
+            l.release()
 
 def crawl(startPage, maxDepth, aAttrsFilter, action):
     toVisit = queue.Queue()
