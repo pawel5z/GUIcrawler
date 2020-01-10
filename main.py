@@ -41,13 +41,15 @@ def downloadSite(toVisit: queue.Queue, downloaded: queue.Queue, l: threading.Loc
 def searchForSentencesContainingWord(word: str, caseSensitive: bool, tagsListToSearch: list):
     def aux(siteHTML):
         if caseSensitive:
-            regEx = re.compile(r'(\b' + word + r'\b|[A-Z][^\.]*?\b' + word + r'\b).*?[\.!?](?:\s|$)')
+            regEx = re.compile(r'((?:(?:\b' + word + r'\b)|(?:[A-Z].*?\b' + word + r'\b)).*?(?:(?:\.\.\.)|[\.\!\?]){1})')
         else:
-            regEx = re.compile(r'(\b' + word + r'\b|[A-Z][^\.]*?\b' + word + r'\b).*?[\.!?](?:\s|$)', re.IGNORECASE)
+            regEx = re.compile(r'((?:(?:\b' + word + r'\b)|(?:[A-Z].*?\b' + word + r'\b)).*?(?:(?:\.\.\.)|[\.\!\?]){1})', re.IGNORECASE)
         bs = bs4.BeautifulSoup(siteHTML, 'html.parser')
         sentencesContainingWord = []
         for tag in bs.body.findAll(tagsListToSearch):
-            sentencesContainingWord.extend([sentence.group() for sentence in regEx.finditer(tag.text)])
+            for sentence in regEx.finditer(tag.text):
+                if not sentence.group() in sentencesContainingWord:
+                    sentencesContainingWord.append(sentence.group())
         return sentencesContainingWord
     return aux
 
@@ -79,8 +81,8 @@ def crawl(startPage, maxDepth, aAttrsFilter, action):
         # downloading sites
         for _ in range(max(1, min(toVisit.qsize(), 8))):
             t = threading.Thread(target=downloadSite, args=(toVisit, downloaded, l))
-            t.start()
             threads.append(t)
+            t.start()
         for t in threads:
             t.join()
         threads.clear()
@@ -88,8 +90,8 @@ def crawl(startPage, maxDepth, aAttrsFilter, action):
         # processing sites
         for _ in range(max(1, min(downloaded.qsize(), 8))):
             t = threading.Thread(target=processSite, args=(toVisit, downloaded, visited, actionRes, maxDepth, aAttrsFilter, action, l))
-            t.start()
             threads.append(t)
+            t.start()
         for t in threads:
             t.join()
         threads.clear()
