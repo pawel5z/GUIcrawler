@@ -77,7 +77,7 @@ def crawl(startPage, maxDepth, aAttrsFilter, action):
     while toVisit.empty() == False:
         threads = []
         # downloading sites
-        for i in range(max(1, min(toVisit.qsize(), 8))):
+        for _ in range(max(1, min(toVisit.qsize(), 8))):
             t = threading.Thread(target=downloadSite, args=(toVisit, downloaded, l))
             t.start()
             threads.append(t)
@@ -86,7 +86,7 @@ def crawl(startPage, maxDepth, aAttrsFilter, action):
         threads.clear()
 
         # processing sites
-        for i in range(max(1, min(downloaded.qsize(), 8))):
+        for _ in range(max(1, min(downloaded.qsize(), 8))):
             t = threading.Thread(target=processSite, args=(toVisit, downloaded, visited, actionRes, maxDepth, aAttrsFilter, action, l))
             t.start()
             threads.append(t)
@@ -104,7 +104,7 @@ class GUIcrawler:
         self.builder.connect_signals(self)
         self.res = None
     
-    def on_mainWindow_destroy(self, widget, data=None):
+    def quitApp(self, widget, data=None):
         Gtk.main_quit()
 
     def invokeWidget(self, widget, data=None):
@@ -126,7 +126,6 @@ class GUIcrawler:
                             searchForSentencesContainingWord(   self.builder.get_object("c1WordToSearch_entry").get_text(),
                                                                 self.builder.get_object("c1_caseSensitive_checkButton").get_active(),
                                                                 comaSepToList(self.builder.get_object("c1TagToSearch_entry").get_text())))
-        # self.builder.get_object("crawlResultsWindow").show()
 
     def on_crawlResultsWindow_show(self, widget, data=None):
         self.builder.get_object("res_startSite").set_text(self.res.startAddress)
@@ -158,3 +157,4 @@ class GUIcrawler:
 app = GUIcrawler()
 app.window.show_all()
 Gtk.main()
+# /╲/( ͡° ͡° ͜ʖ ͡° ͡°)/\╱\

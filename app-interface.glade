@@ -5,7 +5,8 @@
   <object class="GtkApplicationWindow" id="mainWindow">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">GUIcrawler</property>
-    <signal name="destroy" handler="on_mainWindow_destroy" swapped="no"/>
+    <property name="window_position">center</property>
+    <signal name="destroy" handler="quitApp" swapped="no"/>
     <child>
       <placeholder/>
     </child>
@@ -13,7 +14,12 @@
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="margin_left">10</property>
+        <property name="margin_right">10</property>
+        <property name="margin_top">10</property>
+        <property name="margin_bottom">10</property>
         <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
         <child>
           <object class="GtkButton" id="newCrawlButton">
             <property name="label" translatable="yes">New crawl</property>
@@ -44,6 +50,20 @@
             <property name="position">1</property>
           </packing>
         </child>
+        <child>
+          <object class="GtkButton" id="quitAppButton">
+            <property name="label" translatable="yes">Quit</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="quitApp" swapped="no"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
       </object>
     </child>
   </object>
@@ -55,6 +75,7 @@
   <object class="GtkWindow" id="c1Window">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Search for sentences inside &lt;body&gt;...&lt;/body&gt; containing given word</property>
+    <property name="window_position">mouse</property>
     <signal name="delete-event" handler="hideWidget" after="yes" swapped="no"/>
     <signal name="delete-event" handler="invokeWidget" object="newCrawlWindow" swapped="no"/>
     <child>
@@ -64,11 +85,18 @@
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="valign">start</property>
+        <property name="margin_left">10</property>
+        <property name="margin_right">10</property>
+        <property name="margin_top">10</property>
+        <property name="margin_bottom">10</property>
         <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
         <child>
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
@@ -85,6 +113,7 @@
               <object class="GtkEntry" id="c1StartAddress_entry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="hexpand">True</property>
                 <property name="input_purpose">url</property>
               </object>
               <packing>
@@ -104,6 +133,7 @@
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
@@ -143,31 +173,23 @@
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <child>
-              <object class="GtkLabel">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;a&gt;...&lt;/a&gt;</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
+            <property name="spacing">10</property>
             <child>
               <object class="GtkExpander">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="hexpand">True</property>
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="spacing">10</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
@@ -184,6 +206,7 @@
                           <object class="GtkEntry" id="c1_a_id_entry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="hexpand">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -202,6 +225,7 @@
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="spacing">10</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
@@ -218,6 +242,7 @@
                           <object class="GtkEntry" id="c1_a_name_entry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="hexpand">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -236,6 +261,7 @@
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="spacing">10</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
@@ -252,6 +278,7 @@
                           <object class="GtkEntry" id="c1_a_class_entry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="hexpand">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -270,6 +297,7 @@
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="spacing">10</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
@@ -286,6 +314,7 @@
                           <object class="GtkEntry" id="c1_a_title_entry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="hexpand">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -306,7 +335,7 @@
                   <object class="GtkLabel">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">attributes specification</property>
+                    <property name="label" translatable="yes">Hyperlink attributes specification</property>
                   </object>
                 </child>
               </object>
@@ -327,6 +356,7 @@
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
@@ -343,11 +373,13 @@
               <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkEntry" id="c1WordToSearch_entry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="hexpand">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -361,6 +393,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="halign">start</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -387,6 +420,7 @@
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
@@ -403,6 +437,7 @@
               <object class="GtkEntry" id="c1TagToSearch_entry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="hexpand">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -439,6 +474,7 @@
   <object class="GtkWindow" id="newCrawlWindow">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">New crawl</property>
+    <property name="window_position">mouse</property>
     <signal name="delete-event" handler="hideWidget" after="yes" swapped="no"/>
     <signal name="delete-event" handler="invokeWidget" object="mainWindow" swapped="no"/>
     <child>
@@ -448,6 +484,10 @@
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="margin_left">10</property>
+        <property name="margin_right">10</property>
+        <property name="margin_top">10</property>
+        <property name="margin_bottom">10</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkButton">
@@ -469,6 +509,7 @@
   </object>
   <object class="GtkFileChooserDialog" id="openResultsWindow">
     <property name="can_focus">False</property>
+    <property name="window_position">center</property>
     <property name="type_hint">dialog</property>
     <signal name="delete-event" handler="hideWidget" after="yes" swapped="no"/>
     <signal name="delete-event" handler="invokeWidget" object="mainWindow" swapped="no"/>
@@ -564,6 +605,7 @@
   <object class="GtkWindow" id="crawlResultsWindow">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Crawl results</property>
+    <property name="window_position">center</property>
     <signal name="delete-event" handler="hideWidget" after="yes" swapped="no"/>
     <signal name="delete-event" handler="invokeWidget" object="mainWindow" swapped="no"/>
     <signal name="show" handler="on_crawlResultsWindow_show" swapped="no"/>
@@ -574,11 +616,17 @@
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="margin_left">10</property>
+        <property name="margin_right">10</property>
+        <property name="margin_top">10</property>
+        <property name="margin_bottom">10</property>
         <property name="orientation">vertical</property>
+        <property name="spacing">3</property>
         <child>
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
@@ -613,6 +661,7 @@
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
@@ -647,6 +696,7 @@
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
@@ -681,6 +731,7 @@
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
@@ -715,6 +766,7 @@
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
@@ -783,6 +835,8 @@
                     </child>
                     <child>
                       <object class="GtkTreeViewColumn">
+                        <property name="resizable">True</property>
+                        <property name="sizing">autosize</property>
                         <property name="title" translatable="yes">Site address</property>
                         <child>
                           <object class="GtkCellRendererText"/>
@@ -794,6 +848,8 @@
                     </child>
                     <child>
                       <object class="GtkTreeViewColumn">
+                        <property name="resizable">True</property>
+                        <property name="sizing">autosize</property>
                         <property name="title" translatable="yes">Results for given site</property>
                         <child>
                           <object class="GtkCellRendererText"/>
@@ -838,6 +894,7 @@
   </object>
   <object class="GtkFileChooserDialog" id="saveResultsWindow">
     <property name="can_focus">False</property>
+    <property name="window_position">center</property>
     <property name="type_hint">dialog</property>
     <property name="action">save</property>
     <property name="do_overwrite_confirmation">True</property>
