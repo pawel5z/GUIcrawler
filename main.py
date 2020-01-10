@@ -134,10 +134,12 @@ class GUIcrawler:
         self.builder.get_object("res_endTime").set_text(datetime.datetime.fromtimestamp(self.res.endTime).strftime("%A, %B %d, %Y %I:%M:%S"))
         self.builder.get_object("res_crawlTime").set_text(str(self.res.crawlTime))
 
-        resultsListStore = self.builder.get_object("resultsListStore")
-        resultsListStore.clear()
+        resultsTreeStore = self.builder.get_object("resultsTreeStore")
+        resultsTreeStore.clear()
         for siteAddress, foundOnSite in self.res.results:
-            resultsListStore.append([siteAddress, '\n'.join(foundOnSite)])
+            bIter = resultsTreeStore.append(None, [siteAddress])
+            for singleResult in foundOnSite:
+                resultsTreeStore.append(bIter, [singleResult])
 
     def on_saveResultsButton_clicked(self, widget, data=None):
         widget.show()
