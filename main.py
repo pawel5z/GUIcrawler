@@ -71,7 +71,7 @@ def processSite(toVisit: queue.Queue, downloaded: queue.Queue, visited: set, act
     while downloaded.empty() == False:
         siteAddress, dist, siteHTML = downloaded.get()
         visited.add(siteAddress)
-        if dist < maxDepth:
+        if dist < maxDepth or maxDepth == -1:
             bs = bs4.BeautifulSoup(siteHTML, 'lxml')
             for tag in bs.body.findAll('a', attrs=aAttrsFilter):
                 if re.match(r'.+\..+\..+', tag.get('href')) and (not tag.get('href') in visited):
