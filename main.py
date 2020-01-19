@@ -151,8 +151,8 @@ class GUIcrawler:
     def on_crawlResultsWindow_show(self, widget, data=None):
         self.builder.get_object("res_startSite").set_text(self.res.startAddress)
         self.builder.get_object("res_maxDepth").set_text(str(self.res.maxDepth))
-        self.builder.get_object("res_startTime").set_text(datetime.datetime.fromtimestamp(self.res.startTime).strftime("%A, %B %d, %Y %I:%M:%S"))
-        self.builder.get_object("res_endTime").set_text(datetime.datetime.fromtimestamp(self.res.endTime).strftime("%A, %B %d, %Y %I:%M:%S"))
+        self.builder.get_object("res_startTime").set_text(datetime.datetime.fromtimestamp(self.res.startTime).strftime("%A, %d %B, %Y %I:%M:%S"))
+        self.builder.get_object("res_endTime").set_text(datetime.datetime.fromtimestamp(self.res.endTime).strftime("%A, %d %B, %Y %I:%M:%S"))
         self.builder.get_object("res_crawlTime").set_text(str(self.res.crawlTime))
 
         resultsTreeStore = self.builder.get_object("resultsTreeStore")
