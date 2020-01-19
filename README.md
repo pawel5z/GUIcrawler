@@ -1,2 +1,2 @@
 # GUIcrawler
-Project made for Python course
+Project made for Python course.
