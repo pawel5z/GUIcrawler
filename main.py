@@ -35,7 +35,6 @@ class CrawlResult:
     def fromJSON(cls, fJSON):
         return cls(fJSON["startAddress"], fJSON["maxDepth"], fJSON["startTime"], fJSON["endTime"], fJSON["results"])
 
-# convert string of allowed attributes to list of allowed attributes
 def comaSepToList(s: str):
     if s == '':
         return []
@@ -134,14 +133,17 @@ class GUIcrawler:
         return True
     
     def on_c1GoButton_clicked(self, widget, data=None):
+        buffer = self.builder.get_object("c1HyplinkAttrSpec_textBuffer")
+        hyplnAttrSpec = {}
+        for line in buffer.get_text(buffer.get_start_iter(), buffer.get_end_iter(), True).split(sep='\n'):
+            if re.match(r'[a-zA-Z0-9\-\_]+:([a-zA-Z0-9\-\_ ]+)(,([a-zA-Z0-9\-\_ ]+))*', line):
+                attr, valString = line.split(sep=':')
+                hyplnAttrSpec[attr] = comaSepToList(valString)
+        if hyplnAttrSpec == {}:
+            hyplnAttrSpec = None
         self.res = crawl(   self.builder.get_object("c1StartAddress_entry").get_text(),
                             self.builder.get_object("c1MaxDepth_spinButton").get_value_as_int(),
-                            {
-                                "id": comaSepToList(self.builder.get_object("c1_a_id_entry").get_text()),
-                                "name": comaSepToList(self.builder.get_object("c1_a_name_entry").get_text()),
-                                "class": comaSepToList(self.builder.get_object("c1_a_class_entry").get_text()),
-                                "title": comaSepToList(self.builder.get_object("c1_a_title_entry").get_text())
-                            },
+                            hyplnAttrSpec,
                             searchForSentencesContainingWord(   self.builder.get_object("c1WordToSearch_entry").get_text(),
                                                                 self.builder.get_object("c1_caseSensitive_checkButton").get_active(),
                                                                 comaSepToList(self.builder.get_object("c1TagToSearch_entry").get_text())))
