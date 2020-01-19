@@ -167,19 +167,28 @@ class GUIcrawler:
         fileTypeComboBox = self.builder.get_object("fileTypeComboBox")
         model = fileTypeComboBox.get_model()
         curId = fileTypeComboBox.get_active()
+        readFileName = widget.get_filename()
         if model[curId][0] == "*.store":
-            with open(widget.get_filename() + '.store', 'wb') as f:
+            if re.search(r'\.store$', readFileName):
+                savedFileName = readFileName
+            else:
+                savedFileName = readFileName + '.store'
+            with open(savedFileName, 'wb') as f:
                 pickle.dump(self.res, f)
         elif model[curId][0] == "*.json":
-            with open(widget.get_filename() + '.json', 'w') as f:
+            if re.search(r'\.json$', readFileName):
+                savedFileName = readFileName
+            else:
+                savedFileName = readFileName + '.json'
+            with open(savedFileName, 'w') as f:
                 json.dump(self.res.jsonify(), f)
     
     def on_openButton_clicked(self, widget, data=None):
         fname = widget.get_filename()
-        if re.search(r"\.store", fname):
+        if re.search(r"\.store$", fname):
             with open(fname, 'rb') as f:
                 self.res = pickle.load(f)
-        elif re.search(r"\.json", fname):
+        elif re.search(r"\.json$", fname):
             with open(fname, 'r') as f:
                 self.res = CrawlResult.fromJSON(json.load(f))
 
