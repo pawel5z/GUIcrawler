@@ -174,9 +174,6 @@ class GUIcrawler:
             bIter = resultsTreeStore.append(None, [siteAddress])
             for singleResult in foundOnSite:
                 resultsTreeStore.append(bIter, [singleResult])
-
-    def on_saveResultsButton_clicked(self, widget, data=None):
-        widget.show()
     
     def on_saveButton_clicked(self, widget, data=None):
         fileTypeComboBox = self.builder.get_object("fileTypeComboBox")

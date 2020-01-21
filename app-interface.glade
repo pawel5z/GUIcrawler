@@ -808,7 +808,7 @@ div,h1,h3</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <signal name="clicked" handler="on_saveResultsButton_clicked" object="saveResultsWindow" swapped="no"/>
+            <signal name="clicked" handler="invokeWidget" object="saveResultsWindow" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
