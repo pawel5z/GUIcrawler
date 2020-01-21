@@ -70,12 +70,21 @@ def searchForSentencesContainingWord(word: str, caseSensitive: bool, tagsListToS
 def processSite(toVisit: queue.Queue, downloaded: queue.Queue, visited: set, actionRes: list, maxDepth, aAttrsFilter: dict, action, l: threading.Lock):
     while downloaded.empty() == False:
         siteAddress, dist, siteHTML = downloaded.get()
+        l.acquire()
         visited.add(siteAddress)
+        l.release()
         if dist < maxDepth or maxDepth == -1:
             bs = bs4.BeautifulSoup(siteHTML, 'lxml')
             for tag in bs.body.findAll('a', attrs=aAttrsFilter):
-                if re.match(r'.+\..+\..+', tag.get('href')) and (not tag.get('href') in visited):
-                        toVisit.put((tag.get('href'), dist+1))
+                link = tag.get('href')
+                if not re.match(r'#.*', link):
+                    matchObj = re.match(r'(\/.*)', link)
+                    if matchObj:
+                        fullLink = re.match(r'(.+)\/', siteAddress).group(1) + matchObj.group()
+                    else:
+                        fullLink = link
+                    if not fullLink in visited:
+                        toVisit.put((fullLink, dist+1))
 
         result = action(siteHTML)
         if len(result) != 0:
@@ -141,7 +150,11 @@ class GUIcrawler:
                 hyplnAttrSpec[attr] = comaSepToList(valString)
         if hyplnAttrSpec == {}:
             hyplnAttrSpec = None
-        self.res = crawl(   self.builder.get_object("c1StartAddress_entry").get_text(),
+
+        startSite = self.builder.get_object("c1StartAddress_entry").get_text()
+        if startSite[len(startSite)-1] != '/':
+            startSite += '/'
+        self.res = crawl(   startSite,
                             self.builder.get_object("c1MaxDepth_spinButton").get_value_as_int(),
                             hyplnAttrSpec,
                             searchForSentencesContainingWord(   self.builder.get_object("c1WordToSearch_entry").get_text(),
