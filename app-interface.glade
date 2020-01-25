@@ -20,6 +20,7 @@
   <object class="GtkFileChooserDialog" id="saveResultsWindow">
     <property name="can_focus">False</property>
     <property name="window_position">center</property>
+    <property name="icon">app-icon.svg</property>
     <property name="type_hint">dialog</property>
     <property name="action">save</property>
     <property name="do_overwrite_confirmation">True</property>
@@ -159,6 +160,7 @@
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Search for sentences inside &lt;body&gt;...&lt;/body&gt; containing given word</property>
     <property name="window_position">mouse</property>
+    <property name="icon">app-icon.svg</property>
     <signal name="delete-event" handler="hideWidget" after="yes" swapped="no"/>
     <signal name="delete-event" handler="invokeWidget" object="newCrawlWindow" swapped="no"/>
     <child>
@@ -442,6 +444,7 @@ div,h1,h3</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">New crawl</property>
     <property name="window_position">mouse</property>
+    <property name="icon">app-icon.svg</property>
     <signal name="delete-event" handler="hideWidget" after="yes" swapped="no"/>
     <signal name="delete-event" handler="invokeWidget" object="mainWindow" swapped="no"/>
     <child>
@@ -477,6 +480,7 @@ div,h1,h3</property>
   <object class="GtkWindow" id="pleasewaitWindow">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Crawling in progress</property>
+    <property name="icon">app-icon.svg</property>
     <child>
       <placeholder/>
     </child>
@@ -531,6 +535,7 @@ div,h1,h3</property>
   <object class="GtkFileChooserDialog" id="openResultsWindow">
     <property name="can_focus">False</property>
     <property name="window_position">center</property>
+    <property name="icon">app-icon.svg</property>
     <property name="type_hint">dialog</property>
     <property name="filter">resultsFileFilter</property>
     <signal name="delete-event" handler="hideWidget" after="yes" swapped="no"/>
@@ -586,6 +591,7 @@ div,h1,h3</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Crawl results</property>
     <property name="window_position">center</property>
+    <property name="icon">app-icon.svg</property>
     <signal name="delete-event" handler="hideWidget" after="yes" swapped="no"/>
     <signal name="delete-event" handler="invokeWidget" object="mainWindow" swapped="no"/>
     <signal name="show" handler="hideWidget" object="pleasewaitWindow" swapped="no"/>
