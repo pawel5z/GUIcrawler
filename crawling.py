@@ -49,10 +49,40 @@ def searchForSentencesContainingWord(word: str, caseSensitive: bool, tagsListToS
         bs = bs4.BeautifulSoup(siteHTML, 'lxml')
         sentencesContainingWord = []
         for tag in bs.body.findAll(tagsListToSearch):
-            for sentence in regEx.finditer(tag.text):
-                if not sentence.group() in sentencesContainingWord:
-                    sentencesContainingWord.append(sentence.group())
+            for match in regEx.finditer(tag.text):
+                if not match.group() in sentencesContainingWord:
+                    sentencesContainingWord.append(match.group())
         return sentencesContainingWord
+    return aux
+
+def searchForWord(word: str, caseSensitive: bool, tagsListToSearch: list):
+    def aux(siteHTML):
+        if caseSensitive:
+            regEx = re.compile(r'\b' + word + r'\b')
+        else:
+            regEx = re.compile(r'\b' + word + r'\b', re.IGNORECASE)
+        bs = bs4.BeautifulSoup(siteHTML, 'lxml')
+        tagsContainingWord = []
+        for tag in bs.findAll(tagsListToSearch):
+            for match in regEx.finditer(tag.text):
+                if not match.group() in tagsContainingWord:
+                    tagsContainingWord.append(tag)
+        return tagsContainingWord
+    return aux
+
+def searchForPattern(pattern: str, caseSensitive: bool, tagsListToSearch: list):
+    def aux(siteHTML):
+        if caseSensitive:
+            regEx = re.compile(pattern)
+        else:
+            regEx = re.compile(pattern, re.IGNORECASE)
+        bs = bs4.BeautifulSoup(siteHTML, 'lxml')
+        tagsContainingMatch = []
+        for tag in bs.findAll(tagsListToSearch):
+            for match in regEx.finditer(tag.text):
+                if not match.group() in tagsContainingMatch:
+                    tagsContainingMatch.append(tag)
+        return tagsContainingMatch
     return aux
 
 def processSite(toVisit: queue.Queue, downloaded: queue.Queue, visited: set, actionRes: list, maxDepth, aAttrsFilter: dict, action, l: threading.Lock):
@@ -73,7 +103,7 @@ def processSite(toVisit: queue.Queue, downloaded: queue.Queue, visited: set, act
                     elif matchObj1:
                         fullLink = re.match(r'(.+)\/', siteAddress).group(1) + matchObj1.group(1)
                     else:
-                        fullLink = link
+                        fullLink = link # regular hrefs of type http[s]://link
                     matchObj = re.match(r'(.+)\#.*', fullLink) # escape anchors
                     if matchObj:
                         fullLink = matchObj.group(1)
