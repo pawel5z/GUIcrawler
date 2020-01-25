@@ -4,7 +4,7 @@ import datetime
 import json
 import threading
 
-from crawling import crawl, CrawlResult, searchForSentencesContainingWord
+from crawling import crawl, CrawlResult, searchForSentencesContainingWord, searchForWord, searchForPattern
 
 import gi
 gi.require_version('Gtk', '3.0')
@@ -14,6 +14,23 @@ def comaSepToList(s: str):
     if s == '':
         return []
     return s.split(',')
+
+def parseAttrSpec(buffer):
+    hyplnAttrSpec = {}
+    for line in buffer.get_text(buffer.get_start_iter(), buffer.get_end_iter(), True).split(sep='\n'):
+        if re.match(r'[a-zA-Z0-9\-\_]+:([a-zA-Z0-9\-\_ ]+)(,([a-zA-Z0-9\-\_ ]+))*', line):
+            attr, valString = line.split(sep=':')
+            hyplnAttrSpec[attr] = comaSepToList(valString)
+    if hyplnAttrSpec == {}:
+        hyplnAttrSpec = None
+    return hyplnAttrSpec
+
+def parseStartSiteAddress(address):
+    if len(address) == 0:
+        return address
+    if address[len(address)-1] != '/':
+        address += '/'
+    return address
 
 class GUIcrawler:
     def __init__(self):
@@ -35,17 +52,10 @@ class GUIcrawler:
     
     def on_c1GoButton_clicked(self, widget, data=None):
         buffer = self.builder.get_object("c1HyplinkAttrSpec_textBuffer")
-        hyplnAttrSpec = {}
-        for line in buffer.get_text(buffer.get_start_iter(), buffer.get_end_iter(), True).split(sep='\n'):
-            if re.match(r'[a-zA-Z0-9\-\_]+:([a-zA-Z0-9\-\_ ]+)(,([a-zA-Z0-9\-\_ ]+))*', line):
-                attr, valString = line.split(sep=':')
-                hyplnAttrSpec[attr] = comaSepToList(valString)
-        if hyplnAttrSpec == {}:
-            hyplnAttrSpec = None
-
+        hyplnAttrSpec = parseAttrSpec(buffer)
+        
         startSite = self.builder.get_object("c1StartAddress_entry").get_text()
-        if startSite[len(startSite)-1] != '/':
-            startSite += '/'
+        startSite = parseStartSiteAddress(startSite)
 
         def aux():
             self.res = crawl(   startSite,
@@ -58,7 +68,44 @@ class GUIcrawler:
 
         t = threading.Thread(target=aux)
         t.start()
+    
+    def on_c2GoButton_clicked(self, widget, data=None):
+        buffer = self.builder.get_object("c2HyplinkAttrSpec_textBuffer")
+        hyplnAttrSpec = parseAttrSpec(buffer)
+        
+        startSite = self.builder.get_object("c2StartAddress_entry").get_text()
+        startSite = parseStartSiteAddress(startSite)
 
+        def aux():
+            self.res = crawl(   startSite,
+                            self.builder.get_object("c2MaxDepth_spinButton").get_value_as_int(),
+                            hyplnAttrSpec,
+                            searchForWord(  self.builder.get_object("c2WordToSearch_entry").get_text(),
+                                            self.builder.get_object("c2_caseSensitive_checkButton").get_active(),
+                                            comaSepToList(self.builder.get_object("c2TagToSearch_entry").get_text())))
+            GLib.idle_add(widget.show_all)
+
+        t = threading.Thread(target=aux)
+        t.start()
+
+    def on_c3GoButton_clicked(self, widget, data=None):
+        buffer = self.builder.get_object("c3HyplinkAttrSpec_textBuffer")
+        hyplnAttrSpec = parseAttrSpec(buffer)
+        
+        startSite = self.builder.get_object("c3StartAddress_entry").get_text()
+        startSite = parseStartSiteAddress(startSite)
+
+        def aux():
+            self.res = crawl(   startSite,
+                            self.builder.get_object("c3MaxDepth_spinButton").get_value_as_int(),
+                            hyplnAttrSpec,
+                            searchForPattern(   self.builder.get_object("c3PatternToSearch_entry").get_text(),
+                                                self.builder.get_object("c3_caseSensitive_checkButton").get_active(),
+                                                comaSepToList(self.builder.get_object("c3TagToSearch_entry").get_text())))
+            GLib.idle_add(widget.show_all)
+
+        t = threading.Thread(target=aux)
+        t.start()
 
     def on_crawlResultsWindow_show(self, widget, data=None):
         self.builder.get_object("res_startSite").set_text(self.res.startAddress)

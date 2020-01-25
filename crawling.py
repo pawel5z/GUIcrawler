@@ -66,7 +66,7 @@ def searchForWord(word: str, caseSensitive: bool, tagsListToSearch: list):
         for tag in bs.findAll(tagsListToSearch):
             for match in regEx.finditer(tag.text):
                 if not match.group() in tagsContainingWord:
-                    tagsContainingWord.append(tag)
+                    tagsContainingWord.append(match.group())
         return tagsContainingWord
     return aux
 
@@ -81,7 +81,7 @@ def searchForPattern(pattern: str, caseSensitive: bool, tagsListToSearch: list):
         for tag in bs.findAll(tagsListToSearch):
             for match in regEx.finditer(tag.text):
                 if not match.group() in tagsContainingMatch:
-                    tagsContainingMatch.append(tag)
+                    tagsContainingMatch.append(match.group())
         return tagsContainingMatch
     return aux
 
