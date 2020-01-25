@@ -67,6 +67,7 @@ def processSite(toVisit: queue.Queue, downloaded: queue.Queue, visited: set, act
                 link = tag.get('href')
                 if not re.match(r'#.*', link):
                     matchObj = re.match(r'(\/.*)', link)
+                    # TODO: handling hrefs of type //address
                     if matchObj:
                         fullLink = re.match(r'(.+)\/', siteAddress).group(1) + matchObj.group()
                     else:

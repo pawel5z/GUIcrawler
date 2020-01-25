@@ -2,12 +2,13 @@ import re
 import pickle
 import datetime
 import json
+import threading
 
 from crawling import crawl, CrawlResult, searchForSentencesContainingWord
 
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
+from gi.repository import GLib, Gtk
 
 def comaSepToList(s: str):
     if s == '':
@@ -45,12 +46,19 @@ class GUIcrawler:
         startSite = self.builder.get_object("c1StartAddress_entry").get_text()
         if startSite[len(startSite)-1] != '/':
             startSite += '/'
-        self.res = crawl(   startSite,
+
+        def aux():
+            self.res = crawl(   startSite,
                             self.builder.get_object("c1MaxDepth_spinButton").get_value_as_int(),
                             hyplnAttrSpec,
                             searchForSentencesContainingWord(   self.builder.get_object("c1WordToSearch_entry").get_text(),
                                                                 self.builder.get_object("c1_caseSensitive_checkButton").get_active(),
                                                                 comaSepToList(self.builder.get_object("c1TagToSearch_entry").get_text())))
+            GLib.idle_add(widget.show_all)
+
+        t = threading.Thread(target=aux)
+        t.start()
+
 
     def on_crawlResultsWindow_show(self, widget, data=None):
         self.builder.get_object("res_startSite").set_text(self.res.startAddress)
