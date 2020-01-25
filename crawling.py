@@ -65,13 +65,18 @@ def processSite(toVisit: queue.Queue, downloaded: queue.Queue, visited: set, act
             bs = bs4.BeautifulSoup(siteHTML, 'lxml')
             for tag in bs.body.findAll('a', attrs=aAttrsFilter):
                 link = tag.get('href')
-                if not re.match(r'#.*', link):
-                    matchObj = re.match(r'(\/.*)', link)
-                    # TODO: handling hrefs of type //address
-                    if matchObj:
-                        fullLink = re.match(r'(.+)\/', siteAddress).group(1) + matchObj.group()
+                if not re.match(r'#.*', link): # don't try to follow anchors
+                    matchObj1 = re.match(r'(\/.*)', link) # hrefs of type '/link' which should be interpreted as 'root/link'
+                    matchObj2 = re.match(r'(\/\/.+)', link) # hrefs of type '//link' which should be interpreted as 'http://link'
+                    if matchObj2:
+                        fullLink = r'http:' + matchObj2.group(1)
+                    elif matchObj1:
+                        fullLink = re.match(r'(.+)\/', siteAddress).group(1) + matchObj1.group(1)
                     else:
                         fullLink = link
+                    matchObj = re.match(r'(.+)\#.*', fullLink) # escape anchors
+                    if matchObj:
+                        fullLink = matchObj.group(1)
                     if not fullLink in visited:
                         toVisit.put((fullLink, dist+1))
 
