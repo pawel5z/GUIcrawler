@@ -15,9 +15,9 @@ def comaSepToList(s: str):
         return []
     return s.split(',')
 
-def parseAttrSpec(buffer):
+def parseAttrSpec(text):
     hyplnAttrSpec = {}
-    for line in buffer.get_text(buffer.get_start_iter(), buffer.get_end_iter(), True).split(sep='\n'):
+    for line in text.split(sep='\n'):
         if re.match(r'[a-zA-Z0-9\-\_]+:([a-zA-Z0-9\-\_ ]+)(,([a-zA-Z0-9\-\_ ]+))*', line):
             attr, valString = line.split(sep=':')
             hyplnAttrSpec[attr] = comaSepToList(valString)
@@ -52,7 +52,7 @@ class GUIcrawler:
     
     def on_c1GoButton_clicked(self, widget, data=None):
         buffer = self.builder.get_object("c1HyplinkAttrSpec_textBuffer")
-        hyplnAttrSpec = parseAttrSpec(buffer)
+        hyplnAttrSpec = parseAttrSpec(buffer.get_text(buffer.get_start_iter(), buffer.get_end_iter(), True))
         
         startSite = self.builder.get_object("c1StartAddress_entry").get_text()
         startSite = parseStartSiteAddress(startSite)
@@ -71,7 +71,7 @@ class GUIcrawler:
     
     def on_c2GoButton_clicked(self, widget, data=None):
         buffer = self.builder.get_object("c2HyplinkAttrSpec_textBuffer")
-        hyplnAttrSpec = parseAttrSpec(buffer)
+        hyplnAttrSpec = parseAttrSpec(buffer.get_text(buffer.get_start_iter(), buffer.get_end_iter(), True))
         
         startSite = self.builder.get_object("c2StartAddress_entry").get_text()
         startSite = parseStartSiteAddress(startSite)
@@ -90,7 +90,7 @@ class GUIcrawler:
 
     def on_c3GoButton_clicked(self, widget, data=None):
         buffer = self.builder.get_object("c3HyplinkAttrSpec_textBuffer")
-        hyplnAttrSpec = parseAttrSpec(buffer)
+        hyplnAttrSpec = parseAttrSpec(buffer.get_text(buffer.get_start_iter(), buffer.get_end_iter(), True))
         
         startSite = self.builder.get_object("c3StartAddress_entry").get_text()
         startSite = parseStartSiteAddress(startSite)
