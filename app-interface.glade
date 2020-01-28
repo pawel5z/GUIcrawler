@@ -159,6 +159,7 @@
     <property name="page_increment">10</property>
   </object>
   <object class="GtkWindow" id="c1Window">
+    <property name="width_request">450</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Search for sentences inside &lt;body&gt;...&lt;/body&gt; containing given word</property>
     <property name="window_position">mouse</property>
@@ -180,20 +181,21 @@
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
-          <object class="GtkBox">
+          <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="spacing">10</property>
+            <property name="row_spacing">5</property>
+            <property name="column_spacing">5</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">start</property>
                 <property name="label" translatable="yes">Start site address</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
               </packing>
             </child>
             <child>
@@ -208,33 +210,20 @@ www.python.org</property>
                 <property name="input_purpose">url</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="left_attach">1</property>
+                <property name="top_attach">0</property>
               </packing>
             </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">start</property>
                 <property name="label" translatable="yes">Max depth</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
               </packing>
             </child>
             <child>
@@ -244,6 +233,7 @@ www.python.org</property>
                 <property name="tooltip_text" translatable="yes">0 -- only start site will be searched
 -1 -- crawl will last as long as unvisited links will be found;
 [WARNING] This may take infinite amount of time. Use with caution.</property>
+                <property name="halign">start</property>
                 <property name="input_purpose">number</property>
                 <property name="adjustment">maxDepthAdjustment</property>
                 <property name="climb_rate">1</property>
@@ -251,34 +241,21 @@ www.python.org</property>
                 <property name="numeric">True</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="left_attach">1</property>
+                <property name="top_attach">1</property>
               </packing>
             </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">start</property>
                 <property name="label" translatable="yes">Hyperlink attributes
 specification</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
+                <property name="left_attach">0</property>
+                <property name="top_attach">2</property>
               </packing>
             </child>
             <child>
@@ -307,33 +284,20 @@ class:foo</property>
                 </child>
               </object>
               <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="left_attach">1</property>
+                <property name="top_attach">2</property>
               </packing>
             </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">start</property>
                 <property name="label" translatable="yes">Word to search</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
+                <property name="left_attach">0</property>
+                <property name="top_attach">3</property>
               </packing>
             </child>
             <child>
@@ -371,33 +335,21 @@ class:foo</property>
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="left_attach">1</property>
+                <property name="top_attach">3</property>
               </packing>
             </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">3</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Tags which content should be searched</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Tags which content
+should be searched</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
+                <property name="left_attach">0</property>
+                <property name="top_attach">4</property>
               </packing>
             </child>
             <child>
@@ -411,16 +363,15 @@ div,h1,h3</property>
                 <property name="hexpand">True</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="left_attach">1</property>
+                <property name="top_attach">4</property>
               </packing>
             </child>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">4</property>
+            <property name="position">5</property>
           </packing>
         </child>
         <child>
@@ -436,13 +387,14 @@ div,h1,h3</property>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">5</property>
+            <property name="position">6</property>
           </packing>
         </child>
       </object>
     </child>
   </object>
   <object class="GtkWindow" id="c2Window">
+    <property name="width_request">450</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Search for tags whose content includes given word</property>
     <property name="window_position">mouse</property>
@@ -464,161 +416,49 @@ div,h1,h3</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
-          <object class="GtkBox">
+          <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="spacing">10</property>
+            <property name="row_spacing">5</property>
+            <property name="column_spacing">5</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Start site address</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Tags which content
+should be searched</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
+                <property name="left_attach">0</property>
+                <property name="top_attach">4</property>
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="c2StartAddress_entry">
+              <object class="GtkEntry" id="c2TagToSearch_entry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="tooltip_text" translatable="yes">Specify full url. For example:
-https://www.python.org
-not
-www.python.org</property>
-                <property name="hexpand">True</property>
-                <property name="input_purpose">url</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">10</property>
-            <child>
-              <object class="GtkLabel">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Max depth</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="c2MaxDepth_spinButton">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="tooltip_text" translatable="yes">0 -- only start site will be searched
--1 -- crawl will last as long as unvisited links will be found;
-[WARNING] This may take infinite amount of time. Use with caution.</property>
-                <property name="text" translatable="yes">0</property>
-                <property name="input_purpose">number</property>
-                <property name="adjustment">maxDepthAdjustment</property>
-                <property name="climb_rate">1</property>
-                <property name="snap_to_ticks">True</property>
-                <property name="numeric">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">10</property>
-            <child>
-              <object class="GtkLabel">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Hyperlink attributes
-specification</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkScrolledWindow">
-                <property name="height_request">50</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="hscrollbar_policy">never</property>
-                <property name="shadow_type">in</property>
-                <child>
-                  <object class="GtkTextView" id="c2HyplinkAttrSpec_textView">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="tooltip_text" translatable="yes">[Syntax]
-&lt;attr&gt;:&lt;list of comma separated values (match any of them)&gt;
-Spaces aren't allowed.
-1 line - 1 attribute
-Any incorrect lines will be ignored.
+                <property name="tooltip_text" translatable="yes">[Syntax]
+Comma separated list of tags.
 [Example]
-id:foo,bar,qux
-class:foo</property>
-                    <property name="wrap_mode">char</property>
-                    <property name="buffer">c1HyplinkAttrSpec_textBuffer</property>
-                    <property name="accepts_tab">False</property>
-                  </object>
-                </child>
+div,h1,h3</property>
+                <property name="hexpand">True</property>
               </object>
               <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="left_attach">1</property>
+                <property name="top_attach">4</property>
               </packing>
             </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">start</property>
                 <property name="label" translatable="yes">Word to search</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
+                <property name="left_attach">0</property>
+                <property name="top_attach">3</property>
               </packing>
             </child>
             <child>
@@ -656,56 +496,118 @@ class:foo</property>
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="left_attach">1</property>
+                <property name="top_attach">3</property>
               </packing>
             </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">3</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Tags which content should be searched</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Hyperlink attributes
+specification</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
+                <property name="left_attach">0</property>
+                <property name="top_attach">2</property>
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="c2TagToSearch_entry">
+              <object class="GtkScrolledWindow">
+                <property name="height_request">50</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="tooltip_text" translatable="yes">[Syntax]
-Comma separated list of tags.
+                <property name="hscrollbar_policy">never</property>
+                <property name="shadow_type">in</property>
+                <child>
+                  <object class="GtkTextView" id="c2HyplinkAttrSpec_textView">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="tooltip_text" translatable="yes">[Syntax]
+&lt;attr&gt;:&lt;list of comma separated values (match any of them)&gt;
+Spaces aren't allowed.
+1 line - 1 attribute
+Any incorrect lines will be ignored.
 [Example]
-div,h1,h3</property>
-                <property name="hexpand">True</property>
+id:foo,bar,qux
+class:foo</property>
+                    <property name="wrap_mode">char</property>
+                    <property name="buffer">c1HyplinkAttrSpec_textBuffer</property>
+                    <property name="accepts_tab">False</property>
+                  </object>
+                </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="left_attach">1</property>
+                <property name="top_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Max depth</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="c2MaxDepth_spinButton">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="tooltip_text" translatable="yes">0 -- only start site will be searched
+-1 -- crawl will last as long as unvisited links will be found;
+[WARNING] This may take infinite amount of time. Use with caution.</property>
+                <property name="halign">start</property>
+                <property name="text" translatable="yes">0</property>
+                <property name="input_purpose">number</property>
+                <property name="adjustment">maxDepthAdjustment</property>
+                <property name="climb_rate">1</property>
+                <property name="snap_to_ticks">True</property>
+                <property name="numeric">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Start site address</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="c2StartAddress_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="tooltip_text" translatable="yes">Specify full url. For example:
+https://www.python.org
+not
+www.python.org</property>
+                <property name="hexpand">True</property>
+                <property name="input_purpose">url</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">0</property>
               </packing>
             </child>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">4</property>
+            <property name="position">5</property>
           </packing>
         </child>
         <child>
@@ -721,13 +623,14 @@ div,h1,h3</property>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">5</property>
+            <property name="position">6</property>
           </packing>
         </child>
       </object>
     </child>
   </object>
   <object class="GtkWindow" id="c3Window">
+    <property name="width_request">450</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Search for tags whose content includes given word</property>
     <property name="window_position">mouse</property>
@@ -749,161 +652,49 @@ div,h1,h3</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
-          <object class="GtkBox">
+          <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="spacing">10</property>
+            <property name="row_spacing">5</property>
+            <property name="column_spacing">5</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Start site address</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Tags which content
+should be searched</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
+                <property name="left_attach">0</property>
+                <property name="top_attach">4</property>
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="c3StartAddress_entry">
+              <object class="GtkEntry" id="c3TagToSearch_entry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="tooltip_text" translatable="yes">Specify full url. For example:
-https://www.python.org
-not
-www.python.org</property>
-                <property name="hexpand">True</property>
-                <property name="input_purpose">url</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">10</property>
-            <child>
-              <object class="GtkLabel">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Max depth</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="c3MaxDepth_spinButton">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="tooltip_text" translatable="yes">0 -- only start site will be searched
--1 -- crawl will last as long as unvisited links will be found;
-[WARNING] This may take infinite amount of time. Use with caution.</property>
-                <property name="text" translatable="yes">0</property>
-                <property name="input_purpose">number</property>
-                <property name="adjustment">maxDepthAdjustment</property>
-                <property name="climb_rate">1</property>
-                <property name="snap_to_ticks">True</property>
-                <property name="numeric">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">10</property>
-            <child>
-              <object class="GtkLabel">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Hyperlink attributes
-specification</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkScrolledWindow">
-                <property name="height_request">50</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="hscrollbar_policy">never</property>
-                <property name="shadow_type">in</property>
-                <child>
-                  <object class="GtkTextView" id="c3HyplinkAttrSpec_textView">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="tooltip_text" translatable="yes">[Syntax]
-&lt;attr&gt;:&lt;list of comma separated values (match any of them)&gt;
-Spaces aren't allowed.
-1 line - 1 attribute
-Any incorrect lines will be ignored.
+                <property name="tooltip_text" translatable="yes">[Syntax]
+Comma separated list of tags.
 [Example]
-id:foo,bar,qux
-class:foo</property>
-                    <property name="wrap_mode">char</property>
-                    <property name="buffer">c1HyplinkAttrSpec_textBuffer</property>
-                    <property name="accepts_tab">False</property>
-                  </object>
-                </child>
+div,h1,h3</property>
+                <property name="hexpand">True</property>
               </object>
               <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="left_attach">1</property>
+                <property name="top_attach">4</property>
               </packing>
             </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">start</property>
                 <property name="label" translatable="yes">Pattern to search</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
+                <property name="left_attach">0</property>
+                <property name="top_attach">3</property>
               </packing>
             </child>
             <child>
@@ -941,56 +732,118 @@ class:foo</property>
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="left_attach">1</property>
+                <property name="top_attach">3</property>
               </packing>
             </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">3</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">10</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Tags which content should be searched</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Hyperlink attributes
+specification</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
+                <property name="left_attach">0</property>
+                <property name="top_attach">2</property>
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="c3TagToSearch_entry">
+              <object class="GtkScrolledWindow">
+                <property name="height_request">50</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="tooltip_text" translatable="yes">[Syntax]
-Comma separated list of tags.
+                <property name="hscrollbar_policy">never</property>
+                <property name="shadow_type">in</property>
+                <child>
+                  <object class="GtkTextView" id="c3HyplinkAttrSpec_textView">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="tooltip_text" translatable="yes">[Syntax]
+&lt;attr&gt;:&lt;list of comma separated values (match any of them)&gt;
+Spaces aren't allowed.
+1 line - 1 attribute
+Any incorrect lines will be ignored.
 [Example]
-div,h1,h3</property>
-                <property name="hexpand">True</property>
+id:foo,bar,qux
+class:foo</property>
+                    <property name="wrap_mode">char</property>
+                    <property name="buffer">c1HyplinkAttrSpec_textBuffer</property>
+                    <property name="accepts_tab">False</property>
+                  </object>
+                </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="left_attach">1</property>
+                <property name="top_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Max depth</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="c3MaxDepth_spinButton">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="tooltip_text" translatable="yes">0 -- only start site will be searched
+-1 -- crawl will last as long as unvisited links will be found;
+[WARNING] This may take infinite amount of time. Use with caution.</property>
+                <property name="halign">start</property>
+                <property name="text" translatable="yes">0</property>
+                <property name="input_purpose">number</property>
+                <property name="adjustment">maxDepthAdjustment</property>
+                <property name="climb_rate">1</property>
+                <property name="snap_to_ticks">True</property>
+                <property name="numeric">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Start site address</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="c3StartAddress_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="tooltip_text" translatable="yes">Specify full url. For example:
+https://www.python.org
+not
+www.python.org</property>
+                <property name="hexpand">True</property>
+                <property name="input_purpose">url</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">0</property>
               </packing>
             </child>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">4</property>
+            <property name="position">5</property>
           </packing>
         </child>
         <child>
@@ -1006,7 +859,7 @@ div,h1,h3</property>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">5</property>
+            <property name="position">6</property>
           </packing>
         </child>
       </object>
