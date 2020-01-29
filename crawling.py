@@ -231,7 +231,7 @@ def processSite(toVisit: queue.Queue, downloaded: queue.Queue, visited: set, act
 
 def crawl(startPage, maxDepth, aAttrsFilter, action):
     """
-    Traverses the Internet.
+    Traverses the Internet and returns CrawlResult object.
 
     :type startPage: string
     :param startPage: Address of site from which crawl begins.
