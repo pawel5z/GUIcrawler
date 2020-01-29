@@ -1,4 +1,5 @@
 import unittest
+import context
 from gui_handling import comaSepToList, parseAttrSpec, parseStartSiteAddress
 
 class textParsingTestCase(unittest.TestCase):
