@@ -6,7 +6,29 @@ import bs4
 import time
 
 class CrawlResult:
+    """ 
+    This class stores crawl data.
+    """
     def __init__(self, startAddress, maxDepth, startTime, endTime, results):
+        """
+        Creates CrawlResult object.
+
+        :type startAddress: string
+        :param startAddress: Address of site from which crawl began.
+
+        :type maxDepth: int
+        :param maxDepth: The biggest distance from start site crawler can reach.
+
+        :type startTime: float
+        :param startTime: Time at which crawl started.
+        
+        :type endTime: float
+        :param endTimeL Time at which crawl ended.
+
+        :type results: dict
+        :param results: Dictionary containing crawl results for each of visited sites.
+        """
+
         self.startAddress = startAddress
         self.maxDepth = maxDepth
         self.startTime = startTime
@@ -15,6 +37,10 @@ class CrawlResult:
         self.results = results
     
     def jsonify(self):
+        """
+        Returns CrawlResult object in JSON format.
+        """
+
         return {
             "startAddress": self.startAddress,
             "maxDepth": self.maxDepth,
@@ -26,9 +52,29 @@ class CrawlResult:
 
     @classmethod
     def fromJSON(cls, fJSON):
+        """
+        Creates CrawlResult object from JSON file.
+
+        :type fJSON: dict
+        :param fJSON: JSON object to load the data from.
+        """
+
         return cls(fJSON["startAddress"], fJSON["maxDepth"], fJSON["startTime"], fJSON["endTime"], fJSON["results"])
 
 def downloadSite(toVisit: queue.Queue, downloaded: queue.Queue, l: threading.Lock):
+    """
+    Downloads sites.
+
+    :type toVisit: queue.Queue
+    :param toVisit: Stores unvisited sites.
+
+    :type downloaded: queue.Queue
+    :param downloaded: Stores downloaded sites.
+
+    :type l: threading.Lock
+    :param l: Thread lock used to secure thread-unsafe operations.
+    """
+
     while toVisit.empty() == False:
         siteAddress, dist = toVisit.get()
         try:
@@ -41,6 +87,19 @@ def downloadSite(toVisit: queue.Queue, downloaded: queue.Queue, l: threading.Loc
             l.release()
 
 def searchForSentencesContainingWord(word: str, caseSensitive: bool, tagsListToSearch: list):
+    """
+    Returns function that searches HTML document for sentences containing specified word.
+
+    :type word: string
+    :param word: Word to search for in sentences.
+
+    :type caseSensitive: bool
+    :param caseSensitive: Flag specifying whether capital and lowercase letters should be treated as the same.
+
+    :type tagsListToSearch: list
+    :param tagsListToSearch: List of tags inside of which searching should be performed.
+    """
+    
     def aux(siteHTML):
         if caseSensitive:
             regEx = re.compile(r'((?:(?:\b' + word + r'\b)|(?:[A-Z](?:[a-zA-Z0-9, \'])*?\b' + word + r'\b))(?:[a-zA-Z0-9, \'])*?(?:(?:\.\.\.)|[\.\!\?]){1})')
@@ -56,6 +115,19 @@ def searchForSentencesContainingWord(word: str, caseSensitive: bool, tagsListToS
     return aux
 
 def searchForWord(word: str, caseSensitive: bool, tagsListToSearch: list):
+    """
+    Returns function that searches HTML document for specified word.
+
+    :type word: string
+    :param word: Word to search for in HTML tags.
+
+    :type caseSensitive: bool
+    :param caseSensitive: Flag specifying whether capital and lowercase letters should be treated as the same.
+
+    :type tagsListToSearch: list
+    :param tagsListToSearch: List of tags inside of which searching should be performed.
+    """
+
     def aux(siteHTML):
         if caseSensitive:
             regEx = re.compile(r'\b' + word + r'\b')
@@ -71,6 +143,19 @@ def searchForWord(word: str, caseSensitive: bool, tagsListToSearch: list):
     return aux
 
 def searchForPattern(pattern: str, caseSensitive: bool, tagsListToSearch: list):
+    """
+    Returns function that searches HTML texts matching specified pattern.
+
+    :type pattern: string
+    :param pattern: Regular expression.
+
+    :type caseSensitive: bool
+    :param caseSensitive: Flag specifying whether capital and lowercase letters should be treated as the same.
+
+    :type tagsListToSearch: list
+    :param tagsListToSearch: List of tags inside of which searching should be performed.
+    """
+
     def aux(siteHTML):
         if caseSensitive:
             regEx = re.compile(pattern)
@@ -86,6 +171,34 @@ def searchForPattern(pattern: str, caseSensitive: bool, tagsListToSearch: list):
     return aux
 
 def processSite(toVisit: queue.Queue, downloaded: queue.Queue, visited: set, actionRes: list, maxDepth, aAttrsFilter: dict, action, l: threading.Lock):
+    """
+    Gets all links from site and returns result of action on it.
+
+    :type toVisit: queue.Queue
+    :param toVisit: Stores unvisited sites.
+
+    :type downloaded: queue.Queue
+    :param downloaded: Stores downloaded sites.
+
+    :type visited: set
+    :param visited: Stores visited sites.
+
+    :type actionRes: list
+    :param actionRes: Results of action performed on each of visited sites.
+
+    :type maxDepth: int
+    :param maxDepth: The biggest distance from start site crawler can reach.
+
+    :type aAttrsFilter: dict
+    :param aAttrsFilter: Contains allowed attribute values of <a> tags.
+
+    :type action: function
+    :param action: Action to perform on downloaded sites.
+
+    :type l: threading.Lock
+    :param l: Thread lock used to secure thread-unsafe operations.
+    """
+    
     while downloaded.empty() == False:
         siteAddress, dist, siteHTML = downloaded.get()
         l.acquire()
@@ -117,6 +230,22 @@ def processSite(toVisit: queue.Queue, downloaded: queue.Queue, visited: set, act
             l.release()
 
 def crawl(startPage, maxDepth, aAttrsFilter, action):
+    """
+    Traverses the Internet.
+
+    :type startPage: string
+    :param startPage: Address of site from which crawl begins.
+
+    :type maxDepth: int
+    :param maxDepth: The biggest distance from start site crawler can reach.
+
+    :type aAttrsFilter: dict
+    :param aAttrsFilter: Contains allowed attribute values of <a> tags.
+
+    :type action: function
+    :param action: Action to perform on downloaded sites.
+    """
+
     toVisit = queue.Queue()
     downloaded = queue.Queue()
     visited = set()
