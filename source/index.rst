@@ -6,18 +6,18 @@
 Welcome to GUI Crawler's documentation!
 =======================================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+.. .. toctree::
+..    :maxdepth: 2
+..    :caption: Contents:
 
 .. automodule:: crawling
     :members:
 .. automodule:: gui_handling
     :members:
 
-Indices and tables
-==================
+.. Indices and tables
+.. ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. * :ref:`genindex`
+.. * :ref:`modindex`
+.. * :ref:`search`
