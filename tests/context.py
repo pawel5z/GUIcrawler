@@ -1,3 +1,4 @@
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../'))
+import re
+sys.path.insert(0, re.match(r'(.*/)', os.path.abspath(__file__)).group(1) + '../')

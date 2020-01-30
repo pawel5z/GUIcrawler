@@ -10,6 +10,10 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import GLib, Gtk
 
+import os
+import sys
+sys.path.insert(0, re.match(r'(.*/)', os.path.abspath(__file__)).group(1))
+
 def comaSepToList(s: str):
     """
     Returns [] if s is empty or list of strings which were originally separated by commas in s.
@@ -73,7 +77,7 @@ class GUIcrawler:
         """
         
         self.builder = Gtk.Builder()
-        self.builder.add_from_file('app-interface.glade')
+        self.builder.add_from_file(re.match(r'(.*/)', os.path.abspath(__file__)).group(1) + 'app-interface.glade')
         self.window = self.builder.get_object('mainWindow')
         self.builder.connect_signals(self)
         self.res = None
